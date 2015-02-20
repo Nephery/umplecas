@@ -39,6 +39,9 @@ set batname=%source%.classgen.bat
 echo @echo off >> %batname%
 echo echo Compiling Umple source to GraphViz class diagram.... >> %batname%
 echo java -jar %umplejar% %source% -g GvClassDiagram >> %batname%
+for /f "tokens=* delims=" %%P in (%source%) do ( 
+	set source=%%P
+)
 set source=%source:~0,-4%
 goto GenGraphvizclass
 
@@ -47,6 +50,9 @@ set batname=%source%.stategen.bat
 echo @echo off >> %batname%
 echo echo Compiling Umple source to GraphViz state diagram.... >> %batname%
 echo java -jar %umplejar% %source% -g GvStateDiagram >> %batname%
+for /f "tokens=* delims=" %%P in (%source%) do (
+	set source=%%P
+)
 set source=%source:~0,-4%
 goto GenGraphvizstate
 
@@ -62,7 +68,7 @@ goto GenDone
 
 :GenDone
 echo echo Completed >> %batname%
-echo echo This batch was generated using the Umple Generation Automation Script >> %batname%
+echo echo This batch was generated using the Umple Compilation Automation Script >> %batname%
 echo pause >> %batname%
 goto Done
 
@@ -74,12 +80,18 @@ goto Done
 :Class
 echo Compiling Umple source to GraphViz class diagram....
 java -jar %umplejar% %source% -g GvClassDiagram
+for /f "tokens=* delims=" %%P in (%source%) do (
+    set source=%%P
+)
 set source=%source:~0,-4%
 goto Graphvizclass
 
 :State
 echo Compiling Umple source to GraphViz state diagram....
 java -jar %umplejar% %source% -g GvStateDiagram
+for /f "tokens=* delims=" %%P in (%source%) do (
+    set source=%%P
+)
 set source=%source:~0,-4%
 goto Graphvizstate
 

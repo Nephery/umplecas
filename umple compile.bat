@@ -3,7 +3,7 @@ echo ===Umple Compilation Automation Script===
 echo ---Created by Kenneth C.---
 echo ---Licensed under GPLv3---
 set umplejar=Umple.jar
-set graphvizdir=GraphVizDirector
+set graphvizdir=GraphVizDirectory
 
 echo 1- Dialog Search
 echo 2- Command Line Search
@@ -71,18 +71,20 @@ goto GenGraphvizstate
 :GenGraphvizclass
 echo echo Generating diagram image.... >> %batname%
 echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png" >> %batname%
-goto GenDone
+goto GenDelete
 
 :GenGraphvizstate
 echo echo Generating diagram image.... >> %batname%
 echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png" >> %batname%
+goto GenDelete
+
+:GenDelete
+echo echo Deleting GraphViz file.... >> %batname%
+if %option1% == 1 echo del "%source%cd.gv" >> %batname%
+if %option1% == 2 echo del "%source%.gv" >> %batname%
 goto GenDone
 
 :GenDone
-if %option1% == 1 (echo echo Deleting GraphViz file.... >> %batname%
-	echo del "%source%cd.gv" >> %batname%)
-if %option1% == 2 (echo echo Deleting GraphViz file.... >> %batname%
-	echo del "%source%.gv" >> %batname%)
 echo echo Completed >> %batname%
 echo echo This batch was generated using the Umple Compilation Automation Script >> %batname%
 echo pause >> %batname%
@@ -114,18 +116,20 @@ goto Graphvizstate
 :Graphvizclass
 echo Generating diagram image....
 "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png"
-goto Done
+goto Delete
 
 :Graphvizstate
 echo Generating diagram image....
 "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png"
+goto Delete
+
+:Delete
+echo Deleting GraphViz file....
+if %option0% == 1 del "%source%cd.gv"
+if %option0% == 2 del "%source%.gv"
 goto Done
 
 :Done
-if %option0% == 1 (echo Deleting GraphViz file....
-	del "%source%cd.gv")
-if %option0% == 2 (echo Deleting GraphViz file....
-	del "%source%.gv")
 echo Completed
 pause
 goto:eof

@@ -2,8 +2,20 @@
 echo ===Umple Compilation Automation Script===
 echo ---Created by Kenneth C.---
 echo ---Licensed under GPLv3---
-set umplejar=umple.jar
-set /p source="Input source file name: "
+set umplejar=Umple.jar
+set graphvizdir=graphvizdirectory
+
+echo 1- Dialog Search
+echo 2- Command Line Search
+set /p select="Select an Umple code search method: "
+
+if %select% == 1 (for /f "delims=" %%A in ( ' java -cp UmpleCodeSelector.jar UmpleCodeFinder ' ) do set source=%%A
+					goto Next)
+if %select% == 2 (set /p source="Input source file name: "
+					goto Next)
+goto:eof
+
+:Next
 echo 1- Class Diagram
 echo 2- State Diagram
 echo 3- Java source
@@ -58,12 +70,12 @@ goto GenGraphvizstate
 
 :GenGraphvizclass
 echo echo Generating diagram image.... >> %batname%
-echo .\release\bin\dot.exe -Tpng "%source%cd.gv" -o "%source%.png" >> %batname%
+echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png" >> %batname%
 goto GenDone
 
 :GenGraphvizstate
 echo echo Generating diagram image.... >> %batname%
-echo .\release\bin\dot.exe -Tpng "%source%.gv" -o "%source%.png" >> %batname%
+echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png" >> %batname%
 goto GenDone
 
 :GenDone
@@ -97,12 +109,12 @@ goto Graphvizstate
 
 :Graphvizclass
 echo Generating diagram image....
-.\release\bin\dot.exe -Tpng "%source%cd.gv" -o "%source%.png"
+"%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png"
 goto Done
 
 :Graphvizstate
 echo Generating diagram image....
-.\release\bin\dot.exe -Tpng "%source%.gv" -o "%source%.png"
+"%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png"
 goto Done
 
 :Done

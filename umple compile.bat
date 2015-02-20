@@ -9,7 +9,7 @@ echo 1- Dialog Search
 echo 2- Command Line Search
 set /p select="Select an Umple code search method: "
 
-if %select% == 1 (for /f "delims=" %%A in ( ' java -cp UmpleCodeSelector.jar UmpleCodeFinder ' ) do set source=%%A
+if %select% == 1 (for /f "delims=" %%A in ( ' java UmpleCodeFinder ' ) do set source=%%A
 					goto Next)
 if %select% == 2 (set /p source="Input source file name: "
 					goto Next)

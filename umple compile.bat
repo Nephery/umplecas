@@ -3,7 +3,7 @@ echo ===Umple Compilation Automation Script===
 echo ---Created by Kenneth C.---
 echo ---Licensed under GPLv3---
 set umplejar=Umple.jar
-set graphvizdir=graphvizdirectory
+set graphvizdir=GraphVizDirectory
 
 echo 1- Dialog Search
 echo 2- Command Line Search
@@ -20,23 +20,23 @@ echo 1- Class Diagram
 echo 2- State Diagram
 echo 3- Java source
 echo 4- Generate one-click batch file for this source file
-set /p option="Select an option: "
+set /p option0="Select an option: "
 
-if %option% == 1 goto Class
-if %option% == 2 goto State
-if %option% == 3 goto Java
-if %option% == 4 goto Batch
+if %option0% == 1 goto Class
+if %option0% == 2 goto State
+if %option0% == 3 goto Java
+if %option0% == 4 goto Batch
 goto:eof
 
 :Batch
 echo 1- Class Diagram
 echo 2- State Diagram
 echo 3- Java source
-set /p option="Select an option: "
+set /p option1="Select an option: "
 
-if %option% == 1 goto GenClass
-if %option% == 2 goto GenState
-if %option% == 3 goto GenJava
+if %option1% == 1 goto GenClass
+if %option1% == 2 goto GenState
+if %option1% == 3 goto GenJava
 goto:eof
 
 :GenJava
@@ -71,11 +71,17 @@ goto GenGraphvizstate
 :GenGraphvizclass
 echo echo Generating diagram image.... >> %batname%
 echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png" >> %batname%
-goto GenDone
+goto GenDelete
 
 :GenGraphvizstate
 echo echo Generating diagram image.... >> %batname%
 echo "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png" >> %batname%
+goto GenDelete
+
+:GenDelete
+echo echo Deleting GraphViz file.... >> %batname%
+if %option1% == 1 echo del "%source%cd.gv" >> %batname%
+if %option1% == 2 echo del "%source%.gv" >> %batname%
 goto GenDone
 
 :GenDone
@@ -110,11 +116,17 @@ goto Graphvizstate
 :Graphvizclass
 echo Generating diagram image....
 "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%cd.gv" -o "%source%.png"
-goto Done
+goto Delete
 
 :Graphvizstate
 echo Generating diagram image....
 "%graphvizdir%\release\bin\dot.exe" -Tpng "%source%.gv" -o "%source%.png"
+goto Delete
+
+:Delete
+echo Deleting GraphViz file....
+if %option0% == 1 del "%source%cd.gv"
+if %option0% == 2 del "%source%.gv"
 goto Done
 
 :Done
